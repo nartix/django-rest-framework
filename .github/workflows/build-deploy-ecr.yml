@@ -1,0 +1,47 @@
+name: Deploy Django Rest Framework API to Amazon ECR
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build and Deploy Django Rest Framework API Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: 'true'
+
+      - name: Set IMAGE_TAG and Output
+        id: set-image-tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          SHORT_SHA=${GITHUB_SHA::8}
+          IMAGE_TAG="${TAG_NAME}-${SHORT_SHA}"
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "Current tag name: $TAG_NAME"
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: portfolio-django
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+        run: |
+          docker build --no-cache -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . -f Dockerfile.prod
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

@@ -10,20 +10,20 @@ ENV DJANGO_SETTINGS_MODULE=portfolio.settings
 WORKDIR /app
 
 # Add /app/portfolio to the Python path
-ENV PYTHONPATH=/app/portfolio:$PYTHONPATH
+ENV PYTHONPATH=/app/django-rest-framework:$PYTHONPATH
 
 # Install dependencies
-COPY ./python/requirements.txt /app/
+COPY ./requirements.txt /app/
 RUN pip install --upgrade pip
 # psycopg2 dependencies otherwise it fails to install with error: pg_config executable not found
 RUN apt-get update && apt-get install -y libpq-dev gcc python3-dev musl-dev
 RUN pip install -r requirements.txt
 
 # Copy project
-COPY ./python/ /app/
+COPY ./ /app/
 
 # Collect static files
-RUN python portfolio/manage.py collectstatic --noinput
+RUN python django-rest-framework/manage.py collectstatic --noinput
 
 # Run Gunicorn
 CMD gunicorn portfolio.wsgi:application --bind 0.0.0.0:8000
