@@ -2,7 +2,7 @@
 
 This API was built using Django Rest Framework and utilizes PostgreSQL as its database. It is deployed on a Kubernetes cluster.
 
-Live Demo: <a href='https://django-rest-framework.ferozfaiz.com/'>expressjs.ferozfaiz.com</a>
+Live Demo: <a href='https://django-rest-framework.ferozfaiz.com/'>django-rest-framework.ferozfaiz.com</a>
 
 ### Tech Stack:
 
