@@ -1,0 +1,26 @@
+services:
+  django-rest-framework:
+    image: python:3.12.0b4-bookworm
+    container_name: django-rest-framework
+    working_dir: /app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        tail -F /dev/null
+    # user: "1000:1000"
+    volumes:
+      - ./:/app
+    ports:
+      - '8000:8000'
+    restart: unless-stopped
+    # env_file: .env
+    environment:
+      - DJANGO_DEBUG=True
+      # {{ with secret "kv/data/POSTGRESQL" }}
+      - pg_master_database=portfolio
+      - pg_master_user={{ .Data.data.POSTGRESQL_USERNAME }}
+      - pg_master_password={{ .Data.data.POSTGRESQL_PASSWORD }}
+      - pg_master_host={{ .Data.data.POSTGRESQL_MASTER_HOST }}
+      - pg_master_port=5432
+      # {{ end }}

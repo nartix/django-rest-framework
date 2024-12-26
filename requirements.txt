@@ -1,0 +1,6 @@
+django>=4.2.3,<=4.3
+django-cors-headers
+djangorestframework>=3.14.0,<=3.19.0
+psycopg2-binary
+gunicorn
+whitenoise

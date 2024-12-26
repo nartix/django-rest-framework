@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      code {
+        background-color: #f4f4f4;
+        padding: 2px 5px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>API Documentation</h1>
+    <a href="https://ferozfaiz.com">Return to Feroz's Portfolio</a>
+
+    <h2>Base URL</h2>
+    <p>All API endpoints are available under:</p>
+    <code>http://django.ferozfaiz.com</code>
+
+    <h2>Endpoints</h2>
+
+    <h3>GET /</h3>
+    <p>Returns the API documentation page.</p>
+
+    <h3>GET /employees</h3>
+    <p>Returns a list of up to 500 employees.</p>
+
+    <h3>GET /employees/:employee_id</h3>
+    <p>Returns the details of a specific employee with the given employee_id.</p>
+
+    <h3>POST /employees</h3>
+    <p>Creates a new employee with the provided first_name, last_name, and job_title.</p>
+    <h4>Request Body</h4>
+    <code> { "first_name": "John", "last_name": "Doe", "job_title": "Software Developer" } </code>
+
+    <h3>PATCH /employees/:employee_id</h3>
+    <p>Updates an existing employee with the given employee_id using the provided first_name, last_name, and job_title.</p>
+    <h4>Request Body</h4>
+    <code> { "first_name": "John", "last_name": "Doe", "job_title": "Senior Software Developer" } </code>
+
+    <h3>DELETE /employees/:employee_id</h3>
+    <p>Deletes the employee with the given employee_id.</p>
+  </body>
+</html>
