@@ -1,0 +1,26 @@
+{
+  "name": "django-rest-framework-cloudflare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --config wrangler.jsonc",
+    "deploy": "wrangler deploy --config wrangler.jsonc",
+    "deploy:production": "wrangler deploy --config wrangler.jsonc",
+    "deploy:staging": "wrangler deploy --config wrangler.jsonc --env staging",
+    "secrets:sync": "node scripts/sync-env-secrets.mjs",
+    "secrets:sync:production": "node scripts/sync-env-secrets.mjs",
+    "secrets:sync:staging": "CLOUDFLARE_ENV=staging node scripts/sync-env-secrets.mjs",
+    "containers:list": "wrangler containers list",
+    "containers:images": "wrangler containers images list",
+    "typecheck": "tsc --noEmit",
+    "types": "wrangler types --config wrangler.jsonc"
+  },
+  "dependencies": {
+    "@cloudflare/containers": "^0.2.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4",
+    "typescript": "^5",
+    "wrangler": "^4"
+  }
+}

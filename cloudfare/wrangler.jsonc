@@ -1,0 +1,73 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "django-rest-framework-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-05-22",
+  "workers_dev": false,
+  "vars": {
+    "CONTAINER_INSTANCE_COUNT": "1"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "containers": [
+    {
+      "class_name": "DjangoRestFrameworkAPI",
+      "image": "./Dockerfile",
+      "image_build_context": "..",
+      "max_instances": 1,
+      "instance_type": "basic"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "DJANGO_REST_FRAMEWORK_API",
+        "class_name": "DjangoRestFrameworkAPI"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["DjangoRestFrameworkAPI"]
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "django-rest-framework.ferozfaiz.com",
+      "custom_domain": true
+    }
+  ],
+  "env": {
+    "staging": {
+      "name": "django-rest-framework-worker-staging",
+      "workers_dev": true,
+      "preview_urls": false,
+      "routes": [],
+      "vars": {
+        "CONTAINER_INSTANCE_COUNT": "1"
+      },
+      "observability": {
+        "enabled": true
+      },
+      "containers": [
+        {
+          "class_name": "DjangoRestFrameworkAPI",
+          "image": "./Dockerfile",
+          "image_build_context": "..",
+          "max_instances": 1,
+          "instance_type": "basic"
+        }
+      ],
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "DJANGO_REST_FRAMEWORK_API",
+            "class_name": "DjangoRestFrameworkAPI"
+          }
+        ]
+      }
+    }
+  }
+}
